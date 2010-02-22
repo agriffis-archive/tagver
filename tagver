@@ -18,10 +18,9 @@ tagver-git() {
     declare ver
 
     # v1-1-g14beccc-dirty or a546953-dirty
-    ver=$(git describe --always --tags ${1:---dirty}) || die
-    ver=${ver#v}                # 1-1-g14beccc-dirty
-    ver=${ver//-/.}             # 1.1.g14beccc.dirty
-    ver=${ver/%.dirty/+}        # 1.1.g14beccc+
+    ver=$(git describe --always --tags ${1:---dirty=+}) || die
+    ver=${ver#v}                # 1-1-g14beccc+
+    ver=${ver//-/.}             # 1.1.g14beccc+
     [[ $ver == *.* ]] || ver=0.0.$ver  # no tags
 
     echo "$ver"
