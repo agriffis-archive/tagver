@@ -1,0 +1,52 @@
+This script attempts to generate a useful version number
+in a git or mercurial repository using tags, revisions and
+dirtiness.  For example, consider a simple untagged repo:
+
+    $ mkdir foo
+    $ cd foo
+    $ git init
+    $ touch README
+    $ git add README
+    $ git commit -m "first commit"
+    $ tagver
+    0.0.ffbcc93
+
+If there aren't any tags in a repo, tagver prepends 0.0 to
+the changeset number.  Now let's tag a revision for release
+and try again:
+
+    $ git tag v1.0
+    $ tagver
+    1.0
+
+If there's a "v" on the front of the tag, tagver assumes
+it's extraneous. Now add an untagged revision:
+
+    $ echo >> README
+    $ git commit -am "second commit"
+    $ tagver
+    1.0.1.gad8eb1e
+
+and another:
+
+    $ echo >> README
+    $ git commit -am "third commit"
+    $ tagver
+    1.0.2.g621c4f3
+
+You get the idea. What happens if we have uncommitted
+changes lying around?
+
+    $ echo >> README
+    $ tagver
+    1.0.2.g621c4f3+
+
+Note the trailing + indicating a dirty working directory.
+And now let's make a new release:
+
+    $ git commit -am "fourth commit"
+    $ git tag v1.1
+    $ tagver
+    1.1
+
+vim: tw=60
