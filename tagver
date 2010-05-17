@@ -29,7 +29,7 @@ tagver-git() {
 tagver-hg() {
     type hg >/dev/null || die "missing hg binary"
 
-    declare cset_tag cset tag cur dirty
+    declare ct tag cur dirty
 
     # Get the changeset associated with the most recent tag
     # changeset:   42:ab2fe458b727
@@ -49,7 +49,7 @@ tagver-hg() {
     [[ -n $1 ]] || dirty=$(hg id -n | grep -o +)          # +
 
     echo -n "${tag:-0.0}"
-    [[ "$cur" == "$cset" ]] || echo -n ".${cur/:/.}"
+    [[ "$cur" == "$ct" ]] || echo -n ".${cur/:/.}"
     echo "$dirty"
 }
 
